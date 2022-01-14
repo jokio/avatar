@@ -9,7 +9,7 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  test:
+  deploy-testnet:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -30,8 +30,8 @@ jobs:
           FORCE_COLOR: 1
           ENABLE_GAS_REPORT: true
       # - run: npm run test:inheritance
-      - name: Print gas report
-        run: ls
+      # - name: Print gas report
+      #   run: ls
       - name: Deploy on Ropsten
         run: npm run deploy:ropsten
         env:

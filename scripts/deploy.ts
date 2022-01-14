@@ -15,13 +15,19 @@ async function main() {
 
   // We get the contract to deploy
   const AvatarPack = await ethers.getContractFactory("AvatarPack");
-  const avatarPack = await AvatarPack.deploy();
+  const avatarPack = await AvatarPack.deploy(
+    1000,
+    3000,
+    3,
+    [30, 30, 5, 1, 50],
+    "https://jok.land/avatar/packs/default/{1}.json"
+  );
 
   await avatarPack.deployed();
 
   console.log("AvatarPack contract deployed to:", avatarPack.address);
 
-  await sleep(2000);
+  await sleep(3000);
   console.log("started verification process");
 
   await run("verify:verify", {
