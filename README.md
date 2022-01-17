@@ -1,5 +1,11 @@
-# Advanced Sample Hardhat Project
+# Avatar Contract
+Avatar for Web3 dApps
 
+##
+[![codecov](https://codecov.io/gh/jokio/avatar-contract/branch/main/graph/badge.svg?token=lIyhFKvfBU)](https://codecov.io/gh/jokio/avatar-contract)
+
+
+##
 This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
 
 The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
