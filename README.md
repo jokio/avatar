@@ -1,8 +1,11 @@
 # Avatar Contract
 Avatar for Web3 dApps
 
+![Avatars](https://jok.land/assets/images/avatar_promo.png)
+
 ##
 [![codecov](https://codecov.io/gh/jokio/avatar-contract/branch/main/graph/badge.svg?token=lIyhFKvfBU)](https://codecov.io/gh/jokio/avatar-contract)
+
 
 
 ##
