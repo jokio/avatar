@@ -1,19 +1,20 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
-describe("Greeter", function () {
-  it("Should return the new greeting once it's changed", async function () {
+describe("AvatarPack", function () {
+  it("Should create the contract and get prices", async function () {
     const AvatarPack = await ethers.getContractFactory("AvatarPack");
-    const avatarPack = await AvatarPack.deploy();
+    const avatarPack = await AvatarPack.deploy(
+      100,
+      300,
+      3,
+      [1, 10, 30, 10],
+      [1, 1, 1, 1],
+      "https://jok.land/avatar-packs/{0}.json"
+    );
     await avatarPack.deployed();
 
-    expect(await avatarPack.greet()).to.equal("Hello");
-
-    const setGreetingTx = await avatarPack.setGreeting("Hola, mundo!");
-
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
-
-    expect(await avatarPack.greet()).to.equal("Hola, mundo!");
+    expect(await avatarPack.boxPrice()).to.equal(100);
+    expect(await avatarPack.packPrice()).to.equal(300);
   });
 });
