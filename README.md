@@ -1,5 +1,6 @@
 # Avatar Contract
-Avatar for Web3 dApps
+Composable Avatar System for your Web3 dApps. Each component represents NFT and user can compose his avatar based on the components he owns. Everyone can create and sell new Avatar components for free.
+<br/><br/>
 
 ![Avatars](https://jok.land/assets/images/avatar_promo.png)
 
