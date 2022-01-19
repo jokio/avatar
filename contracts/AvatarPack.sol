@@ -5,33 +5,44 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 /**
+
 Contract Highlights:
-* Contract has no owner, with "admin" privilages.
-* Top priority of the Contract is to minimize costs of the end-user.
-* All tokens are minted when the Contract is created on the Contract's address.
-* To check the remaining items left, you have to check the balance of the Contract.
+* Contract has no owner, with `admin` privilages.
+* All NFT tokens are minted on the Contract creation. The Contract's address owns all minted tokens.
+* To check the remaining tokens left, you have to check the balance of the Contract.
+* User have to buy the GiftBox or GiftPack to get the AvatarLayer items randomly.
+* Each AvatarLayer item represents the NFT token.
+* AvatarLayer items will be used to buid the Avatar of the User.
+* One of the top priority of the Contract is to minimize the fee cost of the end-user.
 
 AirDrop:
-* Limits ar defined in the Contract when it's created by the "creator" and CAN'T be changed later. 
+* Contract supports AirDrop.
+* Limits are defined on the Contract creation by the `creator` and CAN'T be changed later. 
 * Anyone can check the remaining airdrop balances at `airdropItemBalances`.
 * AirDrop has another limitation, user can't get multiple coppies of the same item.
-* AirDrop needs the signature of "creator" of the contract. It's the ONLY feature for the "creator". 
 * One user can be part of the AirDrop process ONLY once.
+* User will get AirDrop items ONLY if it's available on the Contract's balance.
+
+`Creator` is ONLY allowed to:
+* Sign the AirDrop requests.
+* Withdraw ethers from the Contract.
+
 */
 
 contract AvatarPack is ERC1155 {
     using ECDSA for bytes32;
 
     mapping(address => uint256) public userTips;
-    mapping(address => bool) public claimedAddresses;
 
     uint256 public boxPrice;
     uint256 public packPrice;
     uint8 public boxCountInPack;
     uint32 public itemsCount;
     string public cid;
-    uint32[] public airdropItemBalances;
 
+    // AirDrop
+    mapping(address => bool) public claimedAddresses;
+    uint32[] public airdropItemBalances;
     address public creator;
 
     event BoxOpened(address to, uint256[] itemIds);
