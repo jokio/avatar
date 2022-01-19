@@ -33,7 +33,7 @@ AirDrop:
 contract AvatarPack is ERC1155 {
     using ECDSA for bytes32;
 
-    mapping(address => uint256) public userTips;
+    mapping(address => uint256) public userDonations;
 
     uint256 public boxPrice;
     uint256 public packPrice;
@@ -86,10 +86,10 @@ contract AvatarPack is ERC1155 {
         require(allowSales, "SALES_NOT_ALLOWED");
         require(msg.value >= boxPrice, "VALUE_LESS_THAN_PRICE");
 
-        uint256 tip = msg.value - boxPrice;
+        uint256 donation = msg.value - boxPrice;
 
-        if (tip > 0) {
-            userTips[msg.sender] += tip;
+        if (donation > 0) {
+            userDonations[msg.sender] += donation;
         }
 
         _buyBoxes(msg.sender, 1);
@@ -99,10 +99,10 @@ contract AvatarPack is ERC1155 {
         require(allowSales, "SALES_NOT_ALLOWED");
         require(msg.value >= packPrice, "VALUE_LESS_THAN_PRICE");
 
-        uint256 tip = msg.value - packPrice;
+        uint256 donation = msg.value - packPrice;
 
-        if (tip > 0) {
-            userTips[_msgSender()] += tip;
+        if (donation > 0) {
+            userDonations[_msgSender()] += donation;
         }
 
         _buyBoxes(msg.sender, boxCountInPack);
@@ -262,12 +262,12 @@ contract AvatarPack is ERC1155 {
     }
 
 
-    // process all requests and increase tips
+    // process all requests and increase donations
     fallback () external payable {
-        userTips[msg.sender] += msg.value;
+        userDonations[msg.sender] += msg.value;
     }
 
     receive () external payable {
-        userTips[msg.sender] += msg.value;
+        userDonations[msg.sender] += msg.value;
     }
 }
