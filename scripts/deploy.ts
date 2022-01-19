@@ -25,7 +25,7 @@ async function main() {
     [30, 30, 5, 1, 50]
   );
 
-  console.log("deploying avatarPack", avatarPack);
+  // console.log("deploying avatarPack", avatarPack);
 
   await avatarPack.deployed();
 
@@ -40,8 +40,9 @@ async function main() {
       100,
       300,
       3,
+      10000,
+      "QmdbsoKEVGCV9ojAHGM8mVAMyycmfLAX9Ds6SxaA1NKHJA",
       [30, 30, 5, 1, 50],
-      "https://jok.land/avatar/packs/default/{1}.json",
     ],
   });
 

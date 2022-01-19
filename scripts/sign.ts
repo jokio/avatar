@@ -21,10 +21,12 @@ function signParams(itemIds, address, adminPrivateKey) {
   return account.sign(dataHash);
 }
 
-signParams(
-  [1, 2, 3],
-  "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4",
-  process.env.PRIVATE_KEY
+console.log(
+  signParams(
+    [1, 2, 3],
+    "0xA50DDAC0918854A3BFDDDa0013B11cc9Ef4E02C3",
+    process.env.PRIVATE_KEY
+  )
 );
 
 // 0x5395b52cd5641cb7ef2b18739f390fa9d02a4b2325d0f5836a18e5596ba4335e

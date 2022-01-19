@@ -1,14 +1,22 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-// import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 /**
-TODO:
-✅ Create default handler to receive tokens and increase tips
-* AirDrop for Jok Users
+Contract Highlights:
+* Contract has no owner, with "admin" privilages.
+* Top priority of the Contract is to minimize costs of the end-user.
+* All tokens are minted when the Contract is created on the Contract's address.
+* To check the remaining items left, you have to check the balance of the Contract.
+
+AirDrop:
+* Limits ar defined in the Contract when it's created by the "creator" and CAN'T be changed later. 
+* Anyone can check the remaining airdrop balances at `airdropItemBalances`.
+* AirDrop has another limitation, user can't get multiple coppies of the same item.
+* AirDrop needs the signature of "creator" of the contract. It's the ONLY feature for the "creator". 
+* One user can be part of the AirDrop process ONLY once.
 */
 
 contract AvatarPack is ERC1155 {
@@ -22,8 +30,9 @@ contract AvatarPack is ERC1155 {
     uint8 public boxCountInPack;
     uint32 public itemsCount;
     string public cid;
-    uint32 public remainingAirdropUsersCount;
-    address admin;
+    uint32[] public airdropItemBalances;
+
+    address public creator;
 
     event BoxOpened(address to, uint256[] itemIds);
     event ItemsClaimed(address to, uint256[] itemIds);
@@ -32,23 +41,24 @@ contract AvatarPack is ERC1155 {
         uint256 _boxPrice,
         uint256 _packPrice,
         uint8 _boxCountInPack,
-        uint32 _airdropUsersCount,
         string memory _cid,
-        uint32[] memory _itemBalances
+        uint32[] memory _itemBalances,
+        uint32[] memory _airdropItemBalances
     ) ERC1155("") {
         require(_itemBalances.length > 0, "INVALID_ITEM_BALANCES");
         require(_boxPrice < _packPrice, "INVALID_PACK_PRICE");
         require(_boxCountInPack > 1, "TOO_SMALL_PACK_SIZE");
         require(_boxCountInPack < _itemBalances.length, "TOO_LARGE_PACK_SIZE");
         require(bytes(_cid).length >= 46, "INVALID_CID");
+        require(_itemBalances.length == _airdropItemBalances.length, "INVALID_AIRDROP_BALANCES");
 
         boxPrice = _boxPrice;
         packPrice = _packPrice;
         boxCountInPack = _boxCountInPack;
         itemsCount = uint32(_itemBalances.length);
         cid = _cid;
-        remainingAirdropUsersCount = _airdropUsersCount;
-        admin = msg.sender;
+        airdropItemBalances = _airdropItemBalances;
+        creator = msg.sender;
 
         // mint all items
         for (uint32 i = 0; i < _itemBalances.length; i++) {
@@ -94,7 +104,7 @@ contract AvatarPack is ERC1155 {
         uint256[] calldata itemIds,
         bytes calldata signature
     ) public {
-        require(claimedAddresses[msg.sender] == false, "ALREADY_RECEIVED");
+        require(claimedAddresses[msg.sender] == false, "USER_ALREADY_CLAIMED");
 
         address signer = keccak256(abi.encodePacked(
                 msg.sender,
@@ -103,14 +113,23 @@ contract AvatarPack is ERC1155 {
             .toEthSignedMessageHash()
             .recover(signature);
 
-        require(signer == admin, "INVALID_SIGNATURE");
+        require(signer == creator, "INVALID_SIGNATURE");
 
 
         uint256[] memory itemAmounts = new uint256[](itemIds.length);
 
         for (uint32 i = 0; i < itemIds.length; i++) {
             require(itemIds[i] < itemsCount, "INVALID_ITEMID");
-            itemAmounts[i] = 1;
+
+            if (
+                (balanceOf(address(this), itemIds[i]) > 0) &&
+                (airdropItemBalances[i] > 0)
+            ) {
+                itemAmounts[i] = 1;
+                airdropItemBalances[i]--;
+            } else {
+                itemAmounts[i] = 0;
+            }
 
             // search for dublicates
             for (uint32 j = 0; j < itemIds.length; j++) {
@@ -122,7 +141,6 @@ contract AvatarPack is ERC1155 {
             }
         }
 
-        remainingAirdropUsersCount--;
         claimedAddresses[msg.sender] = true;
 
         _safeBatchTransferFrom(address(this), msg.sender, itemIds, itemAmounts, "");
