@@ -7,11 +7,12 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 /**
 
 Contract Highlights:
-* Contract has no owner, with `admin` privilages.
+* Contract has no `owner`, with "admin" privilages.
 * All NFT tokens are minted on the Contract creation. The Contract's address owns all minted tokens.
 * To check the remaining tokens left, you have to check the balance of the Contract.
 * User have to buy the GiftBox or GiftPack to get the AvatarLayer items randomly.
 * Each AvatarLayer item represents the NFT token.
+* All AvatarLayer items are genderless.
 * AvatarLayer items will be used to buid the Avatar of the User.
 * One of the top priority of the Contract is to minimize the fee cost of the end-user.
 
