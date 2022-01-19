@@ -8,9 +8,9 @@ describe("AvatarPack", function () {
       100,
       300,
       3,
+      "QmdbsoKEVGCV9ojAHGM8mVAMyycmfLAX9Ds6SxaA1NKHJA",
       [1, 10, 30, 10],
-      [1, 1, 1, 1],
-      "https://jok.land/avatar-packs/{0}.json"
+      [1, 1, 1, 1]
     );
     await avatarPack.deployed();
 

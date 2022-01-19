@@ -20,9 +20,9 @@ async function main() {
     100,
     300,
     3,
-    10000,
     "QmdbsoKEVGCV9ojAHGM8mVAMyycmfLAX9Ds6SxaA1NKHJA",
-    [30, 30, 5, 1, 50]
+    [1, 10, 30, 10],
+    [1, 1, 1, 1]
   );
 
   // console.log("deploying avatarPack", avatarPack);
@@ -40,9 +40,9 @@ async function main() {
       100,
       300,
       3,
-      10000,
       "QmdbsoKEVGCV9ojAHGM8mVAMyycmfLAX9Ds6SxaA1NKHJA",
-      [30, 30, 5, 1, 50],
+      [1, 10, 30, 10],
+      [1, 1, 1, 1],
     ],
   });
 
