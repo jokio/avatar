@@ -48,6 +48,7 @@ contract AvatarPack is ERC1155 {
 
     event BoxOpened(address to, uint256[] itemIds);
     event ItemsClaimed(address to, uint256[] itemIds);
+    event Withdrawal(address to, uint256 amount);
 
     constructor(
         uint256 _boxPrice,
@@ -166,6 +167,16 @@ contract AvatarPack is ERC1155 {
 
     function uri(uint256 id) public view virtual override returns (string memory) {
         return toFullURI(cid, id);
+    }
+
+    function withdraw() public {
+        require(msg.sender == creator, "ONLY_CREATOR_CAN_WITHDRAW");
+
+        uint256 contractBalance = address(this).balance;
+
+        payable(creator).transfer(contractBalance);
+
+        emit Withdrawal(creator, contractBalance);
     }
 
 
