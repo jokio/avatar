@@ -22,7 +22,8 @@ async function main() {
     3,
     "QmdbsoKEVGCV9ojAHGM8mVAMyycmfLAX9Ds6SxaA1NKHJA",
     [1, 10, 30, 10],
-    [1, 1, 1, 1]
+    [1, 1, 1, 1],
+    true
   );
 
   // console.log("deploying avatarPack", avatarPack);
@@ -43,6 +44,7 @@ async function main() {
       "QmdbsoKEVGCV9ojAHGM8mVAMyycmfLAX9Ds6SxaA1NKHJA",
       [1, 10, 30, 10],
       [1, 1, 1, 1],
+      true,
     ],
   });
 
