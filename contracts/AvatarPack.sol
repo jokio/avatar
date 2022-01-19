@@ -118,7 +118,7 @@ contract AvatarPack is ERC1155 {
         return result;
     }
 
-    function claimItem(
+    function claimItems(
         uint256[] calldata itemIds,
         bytes calldata signature
     ) public {
