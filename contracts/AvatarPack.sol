@@ -40,7 +40,6 @@ contract AvatarPack is ERC1155 {
     uint8 public boxCountInPack;
     uint32 public itemsCount;
     string public cid;
-    bool public allowSales;
 
     // AirDrop
     mapping(address => bool) public claimedAddresses;
@@ -57,8 +56,7 @@ contract AvatarPack is ERC1155 {
         uint8 _boxCountInPack,
         string memory _cid,
         uint32[] memory _itemBalances,
-        uint32[] memory _airdropItemBalances,
-        bool _allowSales
+        uint32[] memory _airdropItemBalances
     ) ERC1155("") {
         require(_itemBalances.length > 0, "INVALID_ITEM_BALANCES");
         require(_boxPrice < _packPrice, "INVALID_PACK_PRICE");
@@ -73,7 +71,6 @@ contract AvatarPack is ERC1155 {
         itemsCount = uint32(_itemBalances.length);
         cid = _cid;
         airdropItemBalances = _airdropItemBalances;
-        allowSales = _allowSales;
         creator = msg.sender;
 
         // mint all items
@@ -83,7 +80,6 @@ contract AvatarPack is ERC1155 {
     }
 
     function buyGiftBox() public payable {
-        require(allowSales, "SALES_NOT_ALLOWED");
         require(msg.value >= boxPrice, "VALUE_LESS_THAN_PRICE");
 
         uint256 donation = msg.value - boxPrice;
@@ -96,7 +92,6 @@ contract AvatarPack is ERC1155 {
     }
 
     function buyGiftPack() public payable {
-        require(allowSales, "SALES_NOT_ALLOWED");
         require(msg.value >= packPrice, "VALUE_LESS_THAN_PRICE");
 
         uint256 donation = msg.value - packPrice;

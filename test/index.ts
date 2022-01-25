@@ -10,8 +10,7 @@ describe("AvatarPack", function () {
       3,
       "QmdbsoKEVGCV9ojAHGM8mVAMyycmfLAX9Ds6SxaA1NKHJA",
       [1, 10, 30, 10],
-      [1, 1, 1, 1],
-      true
+      [1, 1, 1, 1]
     );
     await avatarPack.deployed();
 
